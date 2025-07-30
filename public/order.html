@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Now</title>
+    <link rel="stylesheet" href="./placeorder.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <section id="Home">
+        <nav>
+            <div class="logo">
+                <h1  style="color: white; text-shadow:2px 2px 5px  #ff0202; font-size: 25px;">Super market</h1>
+            </div>
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./Items.html">Items</a></li>
+                <li><a href="./aboutus.html">About us</a></li>
+                <li><a href="./review.html">Review</a></li>
+                <li><a href="./order_details.html">Order Details</a></li>
+            </ul>
+            <div class="user" id="userDiv">
+                <p style="color: red; position: absolute; right:5%; top:35%;">Username: <span id="username">Guest</span></p>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Order Section -->
+    <div class="order">
+        <h1><span></span> Place Your Order</h1>
+        <div class="order_main">
+            <div class="order_image">
+                
+            </div>
+            <form id="orderForm">
+                <div class="input">
+                    <p>Name</p>
+                    <input type="text" id="name" placeholder="Your name" required pattern="^[A-Za-z\s]{2,}$" title="Name must contain only letters and at least 2 characters.">
+                </div>
+                <div class="input">
+                    <p>Phone Number</p>
+                    <input type="text" id="number" placeholder="Your number" required pattern="^\d{10}$" title="Phone number must be 10 digits.">
+                </div>
+                <div class="input">
+                    <p>Quantity</p>
+                    <input type="number" id="quantity" value="1" min="1" required>
+                </div>
+                <div class="input">
+                    <p>Your Order</p>
+                    <input type="text" id="foodName" readonly>
+                </div>
+                <div class="input">
+                    <p>Price</p>
+                    <input type="text" id="foodPrice" readonly>
+                </div>
+                <div class="input">
+                    <p>Total Price</p>
+                    <input type="text" id="totalPrice" readonly>
+                </div>
+                <div class="input">
+                    <p>Address</p>
+                    <input type="text" id="address" placeholder="Your Address" required minlength="1" title="Address must be real.">
+                </div>
+                <div class="input">
+                    <p>Alternate Address</p>
+                    <input type="text" id="instructions" placeholder="Alternate Address">
+                </div>
+                <button type="submit" class="order_btn">Order Now</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const itemName = urlParams.get('name');
+        const itemPrice = parseFloat(urlParams.get('price'));
+
+        // Populate form fields with data
+        document.getElementById('foodName').value = itemName;
+        document.getElementById('foodPrice').value = `₹${itemPrice}`;
+        const quantityInput = document.getElementById('quantity');
+        const totalPriceElem = document.getElementById('totalPrice');
+
+        function updateTotal() {
+            const quantity = parseInt(quantityInput.value);
+            totalPriceElem.value = `₹${itemPrice * quantity}`;
+        }
+
+        quantityInput.addEventListener('input', updateTotal);
+        updateTotal();
+
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Show order summary
+            const orderSummary = `
+                Food: ${itemName}
+                Quantity: ${quantityInput.value}
+                Total Price: ₹${itemPrice * quantityInput.value}
+                Address: ${document.getElementById('address').value}
+                Special Instructions: ${document.getElementById('instructions').value || 'None'}
+            `;
+            if (!confirm(`Please confirm your order:\n\n${orderSummary}`)) {
+                return; // User canceled the confirmation
+            }
+
+            const token = localStorage.getItem('token'); // Get the JWT token
+            const orderData = {
+                foodName: itemName,
+                foodPrice: itemPrice,
+                quantity: quantityInput.value,
+                totalPrice: itemPrice * quantityInput.value,
+                name: document.getElementById('name').value,
+                number: document.getElementById('number').value,
+                address: document.getElementById('address').value,
+                instructions: document.getElementById('instructions').value || 'None'
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/submit-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Include token for authentication
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                if (response.ok) {
+                    alert('Order placed successfully!');
+
+                    // Refresh the form by reloading the page
+                    location.reload();
+
+                    window.location.href = 'http://localhost:5000/order_details.html';
+                } else {
+                    const result = await response.json();
+                    alert(result.message || 'Failed to place order.');
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const usernameSpan = document.getElementById('username');
+            const username = localStorage.getItem('username'); // Retrieve username from storage
+
+            // Update the username display
+            usernameSpan.textContent = username || 'Guest';
+        });
+    </script>
+</body>
+</html>

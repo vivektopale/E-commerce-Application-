@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <!-- <link rel="stylesheet" href="./auth.css"> -->
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin:10px auto;
+  
+}
+
+
+.auth-container {
+    width: 550px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(81, 79, 79, 0.814);
+    text-align: center;
+   
+   
+   
+}
+
+
+h1 {
+    font-size: 34px;
+    color: black;
+    margin-bottom: 60px;
+}
+
+.input-box {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #6d6a6a;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgb(184, 181, 181);
+}
+
+button {
+    width: 50%;
+    padding: 10px;
+    background:white;
+    border: none;
+    text-shadow: 0px 1px 2px white;
+    color: rgb(255, 48, 58);
+    font-size: 16px;
+    border : 3px solid rgb(254, 57, 96);
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.1s linear;
+}
+
+button:hover {
+    background:  rgb(254, 57, 96);
+    margin-top: 10px;;
+    color:white;
+    text-shadow: 0px 1px 2px black;
+}
+
+p {
+    margin-top: 10px;
+}
+a{
+    text-decoration: underline;
+    color:rgb(38, 98, 251);
+
+}
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Register</h1>
+        <form id="registerForm">
+            <div class="input-box">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required pattern="^[A-Za-z\s]{2,}$" title="Username must contain only letters and at least 2 characters.">
+            </div>
+            <div class="input-box">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-box">
+                <label>Phone Number</label>
+                <input type="text" id="phone" placeholder="Enter your phone number" required pattern="^\d{10}$" title="Phone number must be 10 digits.">
+            </div>
+            <div class="input-box">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required minlength="6" title="Password must be at least 6 characters long.">
+            </div>
+            <div class="input-box">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit">Register</button>
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            const registerData = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                password: password
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(registerData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Registration successful!');
+                    window.location.href = 'login.html'; // Redirect to login
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                alert('Registration failed!');
+            }
+        });
+    </script>
+</body>
+</html>

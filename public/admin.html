@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+  
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20%;
+    width: 100%;
+    padding: 20px;
+    background: white;
+    color: #fc3a43; /* Violet */
+    box-shadow: 0px 2px 4px rgb(119, 118, 118);
+    position: fixed;
+    top: 0%;
+    z-index: 1000;
+}
+
+h1 {
+    text-shadow: 0px 1px 1px black;
+    margin: 0;
+}
+
+.logout-btn {
+    padding: 10px 15px;
+    background: #fc3a43; /* Violet */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px gray;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+table {
+    width: 90%;
+    margin: 50px auto;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #fc3a43; /* Violet */
+    color: white;
+}
+
+.actions button {
+    margin: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.add-user-form {
+  
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(77, 76, 76);
+    text-align: center;
+    transition: 1s;
+}
+form {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:40px;
+
+}
+
+.add-user-form h2 {
+    margin-bottom: 20px;
+}
+
+.add-user-form input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.add-user-form button {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #fc3a43; /* Violet */
+    box-shadow: 0px 2px 4px gray;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.line {
+    width: 100%;
+    margin-top: 100px;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+    <div class="line"></div>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Password</th>
+                <th>Placed order</th>
+                <th>Customize</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamic data will be injected here -->
+        </tbody>
+    </table>
+    <div class="add-user-form">
+        <h2>Add New User</h2>
+        <form>
+        <input type="text" id="newUsername" placeholder="Username" required>
+        <input type="email" id="newEmail" placeholder="Email" required>
+        <input type="text" id="newPhone" placeholder="Phone" required>
+        <input type="password" id="newPassword" placeholder="Password" required>
+        </form>
+        <button id="addUserBtn">Add User</button>
+    </div>
+    <script>
+        async function fetchUserData() {
+            const response = await fetch('http://localhost:5000/admin-data');
+            const data = await response.json();
+
+            const dataTable = document.getElementById('dataTable').querySelector('tbody');
+            dataTable.innerHTML = ''; // Clear existing data
+
+            data.forEach((user, index) => {
+                const orders = user.orders.map(order => `
+                    <p>Place :${order.address}, <strong>${order.foodName}</strong>: ₹${order.totalPrice} (${order.quantity})</p>
+                `).join('');
+
+                dataTable.innerHTML += `
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone}</td>
+                        <td>${user.password}</td>
+                        <td>${orders || 'No orders'}</td>
+                        <td class="actions">
+                            <button onclick="deleteUser(${index})">Delete</button>
+                            <button onclick="updateUser(${index})">Update</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function addUser() {
+            const username = document.getElementById('newUsername').value;
+            const email = document.getElementById('newEmail').value;
+            const phone = document.getElementById('newPhone').value;
+            const password = document.getElementById('newPassword').value;
+
+            const response = await fetch('http://localhost:5000/add-user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, phone, password })
+            });
+
+            if (response.ok) {
+                alert('User added successfully!');
+                fetchUserData(); // Refresh data dynamically
+                clearFields(); // Clear input fields
+            } else {
+                alert('Failed to add user.');
+            }
+        }
+
+        async function deleteUser(index) {
+            const response = await fetch('http://localhost:5000/delete-user', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ index })
+            });
+
+            if (response.ok) {
+                alert('User deleted successfully!');
+                fetchUserData(); // Refresh data dynamically
+            } else {
+                alert('Failed to delete user.');
+            }
+        }
+
+        async function updateUser(index) {
+            const newEmail = prompt('Enter new email:');
+            const newPhone = prompt('Enter new phone:');
+            const newPassword = prompt('Enter new password:');
+            if (!newEmail || !newPhone || !newPassword) return;
+
+            const response = await fetch('http://localhost:5000/update-user', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ index, newEmail, newPhone, newPassword })
+            });
+
+            if (response.ok) {
+                alert('User updated successfully!');
+                fetchUserData(); // Refresh data dynamically
+            } else {
+                alert('Failed to update user.');
+            }
+        }
+
+        function clearFields() {
+            // Clear input fields after adding a user
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newEmail').value = '';
+            document.getElementById('newPhone').value = '';
+            document.getElementById('newPassword').value = '';
+        }
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            sessionStorage.removeItem('adminToken'); // Clear admin session token
+            alert('Logged out successfully!');
+            window.location.href = 'login.html'; // Redirect to login page
+        });
+
+        document.getElementById('addUserBtn').addEventListener('click', addUser);
+        fetchUserData(); // Load data on page load
+    </script>
+</body>
+</html>

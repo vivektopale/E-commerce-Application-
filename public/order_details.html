@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="./order.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+</head>
+<body>
+    <div class="navi">
+        <section class="Home">
+            <div class="logo">
+                <h1>Super<span>Market</span></h1>
+            </div>
+            <nav>
+                
+                <ul>
+                    <li><a href="./index.html" class="feature-link">Home</a></li>
+                    
+                   
+                </ul>
+    
+            </nav>
+            <div class="user" id="userDiv">
+                <p>Username :</p><i class="bi bi-person-circle"></i><p><span id="username">Guest</span></p>
+            </div>
+        </section>
+        <section class="Home2">
+            
+            <nav>
+                
+               <div class="ls"><li><a href="./Items.html" class="feature-link" >Items</a></li></div><div class="s-line"></div>
+               <div class="ls"> <li><a href="./aboutus.html">About Us</a></li></div><div class="s-line"></div>
+              <div class="ls"><li><a href="./review.html" class="feature-link">Review</a></li></div><div class="s-line"></div>
+               <div class="ls"><li><a href="./order_details.html" class="feature-link" style="color: rgb(252, 58, 91);">Order Details</a></li></div>
+    
+            </nav>
+            
+        </section>
+    <div class="line"></div>
+    </div>
+
+    <!-- Order Details Section -->
+    <div class="order">
+        <h1><span></span> Order Details</h1>
+        <div id="orderDetails">
+           
+        </div>
+    </div>
+
+    <div class="footer">
+    
+        <section class="end">
+            <div class="last-left">
+                <span>c 2025 Airbnb, Inc.</span>
+                <p>.</p>
+                <a href="#">Privacy</a>
+                <p>.</p>
+                <a href="#">Terms</a>
+                <p>.</p>
+                <a href="#">Sitemap</a>
+                <p>.</p>
+                <a href="#">Company details</a>
+            </div>
+            <div class="last-right">
+                <i class="fa-duotone fa-solid fa-globe"></i>
+                <span>English(IN)</span>
+                <aside>
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+                <span>INR</span>
+                </aside>
+                <div class="logos">
+                <i class="fa-brands fa-square-facebook"></i>
+                <i class="fa-brands fa-square-twitter"></i>
+                <i class="fa-brands fa-square-instagram"></i></div>
+    
+            </div>
+          </section>
+    </div>
+    <!-- JavaScript for Fetching & Deleting User Orders -->
+    <script>
+        async function fetchUserOrders() {
+            const token = localStorage.getItem('token'); // Retrieve token
+            const username = localStorage.getItem('username'); // Retrieve username
+
+            // Update username in user div
+            const usernameSpan = document.getElementById('username');
+            usernameSpan.textContent = username || 'Guest';
+
+            if (!token) {
+                alert("You need to log in first!");
+                window.location.href = "login.html"; // Redirect to login page
+                return;
+            }
+
+            const response = await fetch('http://localhost:5000/orders', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const orders = await response.json();
+
+            const orderDetailsElem = document.getElementById('orderDetails');
+            if (orders.length === 0) {
+                orderDetailsElem.innerHTML = '<p>No orders placed yet!</p>';
+                return;
+            }
+
+            orderDetailsElem.innerHTML = orders.map((order, index) => `
+                <div class="order_card">
+                    <h2>Your Order No : ${index + 1}</h2>
+                    <p><strong>Item:</strong> ${order.foodName}</p>
+                    <p><strong>Quantity:</strong> ${order.quantity}</p>
+                    <p><strong>Total Price:</strong> ₹${order.totalPrice}</p>
+                    <p><strong>Number:</strong> ${order.number}</p>
+                    
+                    <p><strong>Address:</strong> ${order.address}</p>
+                    <button onclick="deleteOrder(${index})" class="delete_btn">Delete Order</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteOrder(orderIndex) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Unauthorized! Please log in.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            const response = await fetch('http://localhost:5000/delete-order', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ index: orderIndex })
+            });
+
+            if (response.ok) {
+                alert('Order deleted successfully!');
+                fetchUserOrders(); // Refresh the order details
+            } else {
+                alert('Failed to delete order.');
+            }
+        }
+
+        fetchUserOrders();
+    </script>
+</body>
+</html>

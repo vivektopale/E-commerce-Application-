@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+font-family: 'Arial', sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f8f8f8;
+color: #333;
+}
+/* Section Styles */
+section {
+    width: 100%;
+}
+
+section nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color:white;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 1%;
+    height: 70px;
+    margin-top: -8px;
+    background:  #2c2c31;
+    border-radius: 30px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+section nav .logo img {
+    width: 100px;
+    cursor: pointer;
+   
+    position: absolute;
+    top:-20%;
+}
+
+section nav ul {
+    list-style: none;
+}
+
+section nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+section nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 17px;
+    transition: 0.1s;
+}
+
+section nav ul li a::after {
+    content: '';
+    width: 0;
+    height: 2px;
+    background: red;
+    display: block;
+    transition: 0.2s linear;
+}
+
+section nav ul li a:hover::after {
+    width: 100%;
+}
+
+section nav ul li a:hover {
+    color: #d2fa31;
+}
+
+section nav .icon i {
+    font-size: 18px;
+    color: #000;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+section nav .icon i:hover {
+    color: #fac031;
+}
+.order {
+    width: 100%;
+    height: 100vh;
+    padding: 70px 0;
+    margin:40px auto;
+    background-size: cover;
+    background-position: center
+}
+.order h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 55px;
+    margin-bottom: 10px;
+}
+.order h1 span {
+    color: #fac031;
+    margin-right: 15px;
+    font-family: "MV Boli", sans-serif;
+}
+.order h1 span::after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #fac031;
+    display: block;
+    position: relative;
+    bottom: 15px;
+}
+.order .order_main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+
+}
+.order .order_main .order_image img {
+    width: 600px;
+    border-radius: 10px;
+}
+.order .order_main form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin
+}
+.order .order_main form .input p {
+    font-weight:bold;
+    margin-bottom: 5px;
+}
+.order .order_main form .input {
+    margin: 5px;
+}
+.order .order_main form .input input {
+    width: 300px;
+    height: 35px;
+    padding: 0 10px;
+    border: 2px solid #cccccc;
+    background: #eeeeee;
+    outline: none;
+    border-radius: 3px;
+}
+.order .order_main form .input input:focus {
+    border: 2px solid #fac031;
+}
+.order .order_main form .order_btn {
+    padding: 10px 0;
+    background: #302e28;
+    color: white;
+    width: 40%;
+    text-align: center;
+    margin: 20px auto;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+::-webkit-scrollbar{
+width: 13px;
+}
+
+::-webkit-scrollbar-track{
+border-radius: 15px;
+box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb{
+background: #fac031;
+border-radius: 15px;
+}::-webkit-scrollbar{
+width: 13px;
+}
+
+::-webkit-scrollbar-track{
+border-radius: 15px;
+box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb{
+background: #fac031;
+border-radius: 15px;
+}

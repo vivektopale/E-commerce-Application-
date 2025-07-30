@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Ratings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&display=swap");
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: black;
+      color: white;
+      font-family:'Times New Roman', Times, serif;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 275px;
+      height: 100vh;
+      padding: 20px;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 100;
+    }
+
+    .sidebar > p {
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 20px;
+      width: 100%;
+      background-color: black;
+      box-shadow: 0px 2px 4px gray;
+      font-size: 18px;
+      color: red;
+      z-index: 100;
+    }
+
+    .sidebar > nav {
+      margin-top: 58px;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      transition: 0.2s ease-in-out;
+      display: block;
+      border: 1px solid black;
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+      border: 1px solid white;
+      border-radius: 10px;
+      box-shadow: 0px 2px 4px aqua;
+      color: red;
+      text-shadow: 0px 1px 1px aqua;
+    }
+
+    #logout {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      color: white;
+      cursor: pointer;
+      font-size: 20px;
+      border: 1px solid gray;
+      padding: 25px 108px;
+      background-color: #33214337;
+      z-index: 100;
+    }
+
+    .con {
+      width: 70%;
+      height: 100vh;
+      border-left: 1px solid gray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main {
+      width: 90%;
+      height: 85%;
+      margin: 80px 0 5px 180px;
+      border-radius: 20px;
+      box-shadow: 0px 2px 10px white;
+      overflow: auto;
+      padding: 20px;
+    }
+
+    .main::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    .main::-webkit-scrollbar-thumb {
+      background-color: aqua;
+      border-radius: 10px;
+      border: 2px solid black;
+    }
+
+    .main::-webkit-scrollbar-track {
+      background-color: black;
+      border-radius: 10px;
+    }
+
+    .header {
+      text-align: center;
+      font-size: 35px;
+      color: aqua;
+      text-shadow: 2px 2px 10px aqua;
+      margin-bottom: 20px;
+    }
+
+    .rating-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .rating-box {
+      background-color: rgba(23, 23, 23, 0.5);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 4px aqua;
+    }
+
+    .stars {
+      color: aqua;
+      font-size: 22px;
+    }
+
+    .user-name {
+      font-weight: bold;
+      color: white;
+    }
+
+    .rating-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 80px;
+      padding: 15px;
+      background-color: rgba(0, 0, 0, 0.462);
+      border-radius: 10px;
+      box-shadow: 0px 2px 4px white;
+    }
+
+    input, select {
+      width: 70%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid rgb(39, 38, 38);
+      background-color: black;
+      color: white;
+    }
+
+    button {
+      width: 70%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background-color: aqua;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: rgba(40, 237, 237, 0.8);
+    }
+
+    /* ===== Light Theme Overrides ===== */
+    body.light-mode {
+      background-color: white;
+      color: black;
+    }
+
+    body.light-mode .sidebar {
+      background-color: #f0f0f0;
+    }
+
+    body.light-mode .sidebar a {
+      color: black;
+    }
+
+    body.light-mode .sidebar a:hover,
+    body.light-mode .sidebar a.active {
+      color: blue;
+      border: 1px solid black;
+      box-shadow: 0px 2px 4px lightblue;
+      text-shadow: none;
+    }
+
+    body.light-mode .main {
+      box-shadow: 0px 2px 10px black;
+    }
+
+    body.light-mode .rating-box {
+      background-color: #f9f9f9;
+      box-shadow: 0px 2px 4px lightblue;
+      color: black;
+    }
+
+    body.light-mode .header {
+      color: blue;
+      text-shadow: 2px 2px 10px lightblue;
+    }
+
+    body.light-mode .stars {
+      color: blue;
+    }
+
+    body.light-mode input,
+    body.light-mode select {
+      background-color: white;
+      color: black;
+    }
+
+    body.light-mode button {
+      background-color: blue;
+      color: white;
+    }
+
+    body.light-mode button:hover {
+      background-color: #0059ff;
+    }
+
+    .theme-toggle {
+      color: white;
+      margin-top: auto;
+      padding: 10px 0;
+      position: absolute;
+      top:0;
+      right:0;
+      z-index: 1000;
+    }
+
+    .theme-toggle label {
+      cursor: pointer;
+    }
+
+    body.light-mode .theme-toggle {
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <p>Username: <span class="username" id="loggedUser" style="color: white;">Guest</span></p>
+    <nav>
+      <a href="mick.html">Voice Assistant</a>
+      <a href="terms.html">Terms & Conditions</a>
+      <a href="#" id="ho">Ratings</a>
+      <a href="./about us.html">About Us</a>
+      <a href="history.html">Chat History</a>
+      <a href="./index.html">Chat</a>
+    </nav>
+
+    <!-- Theme Toggle Switch -->
+    <div class="theme-toggle">
+      <label><input type="checkbox" id="themeToggle"> Light Mode</label>
+    </div>
+
+    <a href="login.html" id="logout">Logout</a>
+  </aside>
+
+  <div class="con">
+    <div class="main">
+      <div class="header">User Ratings</div>
+
+      <div class="rating-container" id="ratingsList"></div>
+
+      <div class="rating-form">
+        <h3>Submit Your Rating</h3>
+        <input type="text" id="userName" placeholder="Enter Your Name" required>
+        <select id="userRating">
+          <option value="★★★★★">★★★★★</option>
+          <option value="★★★★☆">★★★★☆</option>
+          <option value="★★★☆☆">★★★☆☆</option>
+          <option value="★★☆☆☆">★★☆☆☆</option>
+          <option value="★☆☆☆☆">★☆☆☆☆</option>
+        </select>
+        <input type="text" id="userReview" placeholder="Write Your Review" required>
+        <button onclick="submitRating()">Submit Rating</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    
+
+    // Load Ratings
+    function loadRatings() {
+      const ratingsList = document.getElementById("ratingsList");
+      const ratings = JSON.parse(localStorage.getItem("userRatings")) || [];
+
+      ratingsList.innerHTML = "";
+      ratings.forEach(rating => {
+        ratingsList.innerHTML += `<div class="rating-box">
+          <p class="user-name">${rating.name}</p>
+          <p class="stars">${rating.rating}</p>
+          <p>"${rating.review}"</p>
+        </div>`;
+      });
+    }
+
+    // Submit Rating
+    function submitRating() {
+      const name = document.getElementById("userName").value;
+      const rating = document.getElementById("userRating").value;
+      const review = document.getElementById("userReview").value;
+
+      if (name && review) {
+        const ratings = JSON.parse(localStorage.getItem("userRatings")) || [];
+        ratings.push({ name, rating, review });
+        localStorage.setItem("userRatings", JSON.stringify(ratings));
+        loadRatings();
+      }
+    }
+
+    // Theme toggling logic
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.classList.toggle('light-mode', savedTheme === 'light');
+    document.getElementById('themeToggle').checked = savedTheme === 'light';
+
+    document.getElementById('themeToggle').addEventListener('change', function () {
+      const isLight = this.checked;
+      document.body.classList.toggle('light-mode', isLight);
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+
+    // Load ratings on page load
+    loadRatings();
+  </script>
+</body>
+</html>

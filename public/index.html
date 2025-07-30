@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+
+</head>
+<body>
+    <div class="navi">
+    <section class="Home">
+        <div class="logo">
+            <h1>Super<span>Market</span></h1>
+        </div>
+        <nav>
+            
+            <ul>
+                <li><a href="#" class="feature-link">Home</a></li>
+                
+                <li><a href="./login.html" id="loginLink">Login</a></li>
+            </ul>
+
+        </nav>
+        <div class="user" id="userDiv">
+            <p>Username :</p><i class="bi bi-person-circle"></i><p><span id="username">Guest</span></p>
+        </div>
+    </section>
+    <section class="Home2">
+        
+        <nav>
+            
+           <div class="ls"><li><a href="./Items.html" class="feature-link" >Items</a></li></div><div class="s-line"></div>
+           <div class="ls"> <li><a href="./aboutus.html">About Us</a></li></div><div class="s-line"></div>
+          <div class="ls"><li><a href="./review.html" class="feature-link">Review</a></li></div><div class="s-line"></div>
+           <div class="ls"><li><a href="./order_details.html" class="feature-link">Order Details</a></li></div>
+
+        </nav>
+        
+    </section>
+<div class="line"></div>
+</div>
+<div class="store">
+    
+    <img src="./img/store.png" alt="" >
+
+<div class="right">
+    <h1>SHOPPING ONLINE</h1>
+    <h3>Online Delivery</h3>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore commodi quas id suscipit possimus obcaecati facere.
+    Illo sunt amet odit, optio architecto autem nihil consequatur dolorem cum eius.
+    Sequi eum quo quod perferendis labore optio debitis, ullam rem id, quam amet, velit aspernatur facere porro sapiente soluta in non quis!</p>
+
+    <button><a href="./Items.html" class="feature-link">Shop now</a></button>
+</div>
+</div>
+
+<div class="footer">
+    
+    <section class="end">
+        <div class="last-left">
+            <span>c 2025 Supermarket</span>
+            <p>.</p>
+            <a href="#">Privacy</a>
+            <p>.</p>
+            <a href="#">Terms</a>
+            <p>.</p>
+            <a href="#">Sitemap</a>
+            <p>.</p>
+            <a href="#">Company details</a>
+        </div>
+        <div class="last-right">
+            <i class="fa-duotone fa-solid fa-globe"></i>
+            <span>English(IN)</span>
+            <aside>
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+            <span>INR</span>
+            </aside>
+            <div class="logos">
+            <i class="fa-brands fa-square-facebook"></i>
+            <i class="fa-brands fa-square-twitter"></i>
+            <i class="fa-brands fa-square-instagram"></i></div>
+
+        </div>
+      </section>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginLink = document.getElementById('loginLink');
+            const usernameSpan = document.getElementById('username');
+            const featureLinks = document.querySelectorAll('.feature-link');
+
+            // Retrieve token and username from localStorage
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+
+            if (token && username) {
+                // User is logged in
+                loginLink.textContent = 'Logout';
+                usernameSpan.textContent = username;
+
+                // Links are fully functional
+                featureLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        console.log(`Navigating to: ${link.getAttribute('href')}`);
+                        window.location.href = link.getAttribute('href');
+                    });
+                });
+            } else {
+                // User is not logged in
+                loginLink.textContent = 'Login';
+                featureLinks.forEach(link => link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert('Please log in to access this page.');
+                }));
+            }
+
+            // Login/Logout functionality
+            loginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (token) {
+                    // Logout
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('username');
+                    window.location.reload();
+                } else {
+                    // Redirect to login
+                    window.location.href = './login.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

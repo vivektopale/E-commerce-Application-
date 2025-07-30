@@ -1,0 +1,252 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+html{
+    scroll-behavior: smooth;
+}
+body{
+    width: 100%;
+    height: 100%;
+    
+}
+.navi{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 5px rgb(181, 179, 179);
+    
+}
+.Home{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 5%;
+    padding: 25px 20px;
+    margin: 0px auto;
+    margin-bottom: -20px;
+}
+.logo{
+    font-size: 23px;
+    color: rgb(252, 58, 91);
+}
+.logo span{
+    
+    color: white;
+    text-shadow: 1px 1px 3px black;
+    background-color: #5e9ee3;
+    /* border: 1px solid black; */
+    border-radius: 30px;
+    padding: 2px 8px;
+
+}
+.Home nav{
+    margin-left: -130px;
+}
+.Home>nav ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    list-style: none;
+    font-size: 16px;
+}
+section nav ul:first-child>li:first-child>a{
+    text-decoration: none;
+    color: rgb(120, 119, 119);
+    font-weight: bold;
+    color:#000
+}
+section nav ul:last-child>li:last-child>a{
+    text-decoration: none;
+    color: rgb(120, 119, 119);
+    border-bottom: #fff;
+    transition: 0.3s linear;
+}
+section nav ul:last-child>li:last-child>a:hover{
+    color: black;
+    border-bottom:1px solid #0e0e0e;
+   
+    
+}
+.user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.user p{
+    font-size: 16px;
+}
+.user i{
+    font-size: 22px;
+}
+.Home2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 15%;
+    padding: 0px 20px;   
+    margin: 0px auto;
+    /* position: fixed;
+    z-index: 1000;
+    left: 80px; */
+    position: relative;
+    z-index: 1000;
+}
+.Home2 nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    border: 1px solid rgba(194, 192, 192, 0.782);
+    border-radius: 40px;
+    width: 65%;
+    box-shadow: 0px 2px 4px rgb(95, 94, 94);
+}
+.Home2 nav .ls{
+    list-style: none;
+    /* border: 1px solid rgb(248, 242, 242); */
+    border-radius: 40px;
+    width: 25%;
+    padding: 25px 15px;
+    text-align: center;
+    transition: 0.3s linear;
+    
+}
+.Home2 nav .ls:hover{
+   
+background-color:  rgba(197, 194, 194, 0.586);
+   
+    
+}
+.Home2 nav .ls >li>a{
+    text-decoration: none;
+    list-style: none;
+    color: black;
+}
+.s-line{
+    height: 50px;
+    border-left: 1px solid  rgba(197, 194, 194, 0.742);
+}
+.line{
+    width: 100%;
+   
+    margin-top: 10px;
+    
+   
+}
+.store{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 90%;
+    height: 70%;
+    margin: 0 auto;
+    margin-top: 140px;
+position: relative;
+
+}
+.store img{
+  position: absolute;
+  left:-10%;
+  margin-top: 500px;
+  width: 60%;
+  height: 650px;
+
+}
+.right{
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 50px;
+    right: 0px;
+   
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* margin-top: 80px; */
+}
+.right h1{
+    font-size: 70px;
+    color: rgb(252, 58, 91);
+}
+.right h3{
+   font-weight: normal;
+   font-size: 25px;
+    color: rgb(1, 1, 1);
+}
+.right p{
+    
+     color: rgba(108, 108, 108, 0.881);
+ }
+.right button{
+    border: 1px solid black;
+    width: 12%;
+    background: rgb(252, 58, 91);
+    text-align: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+    margin-top: 50px;
+    margin-left: 300px;
+ }
+ .right button a{
+    text-decoration: none;
+    color: white;
+ }
+ 
+.end{
+    width: 90%;
+    height: 10vh;
+    border-top: 1px solid  #c7c5c5;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 34%;
+    font-size: 14px;
+    /* border: 1px solid black; */
+}
+.last-left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:8px;
+}
+.last-left>p{
+    margin-bottom: 8px;
+}
+.last-left a{
+    text-decoration: none;
+    color: black;
+    border-bottom:1px solid #f7f7f7;
+}
+.last-left a:hover{
+    border-bottom:1px solid black ;
+}
+.last-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-size: 15px;
+}
+.logos{
+    display: flex;
+    gap: 15px;
+    font-size: 20px;
+}
+.last-right>aside{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.last-right>aside>i{
+    font-size: 12px;
+}
