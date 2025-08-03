@@ -109,14 +109,14 @@
 
             const token = localStorage.getItem('token'); // Get the JWT token
             const orderData = {
-                foodName: itemName,
-                foodPrice: itemPrice,
+                Name: itemName,
+                Price: itemPrice,
                 quantity: quantityInput.value,
                 totalPrice: itemPrice * quantityInput.value,
                 name: document.getElementById('name').value,
                 number: document.getElementById('number').value,
                 address: document.getElementById('address').value,
-                instructions: document.getElementById('instructions').value || 'None'
+                Alternative_Address: document.getElementById('instructions').value || 'None'
             };
 
             try {
@@ -156,3 +156,4 @@
 </body>
 
 </html>
+
