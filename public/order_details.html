@@ -110,7 +110,7 @@
             orderDetailsElem.innerHTML = orders.map((order, index) => `
                 <div class="order_card">
                     <h2>Your Order No : ${index + 1}</h2>
-                    <p><strong>Item:</strong> ${order.foodName}</p>
+                    <p><strong>Item:</strong> ${order.Name}</p>
                     <p><strong>Quantity:</strong> ${order.quantity}</p>
                     <p><strong>Total Price:</strong> ₹${order.totalPrice}</p>
                     <p><strong>Number:</strong> ${order.number}</p>
@@ -149,4 +149,5 @@
         fetchUserOrders();
     </script>
 </body>
+
 </html>
