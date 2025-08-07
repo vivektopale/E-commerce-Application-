@@ -1,0 +1,18 @@
+[
+  {
+    "username": "vivek",
+    "email": "topalevivek1206@gmail.com",
+    "phone": "7035830303",
+    "password": "@vivek221",
+    "orders": [
+      {
+        "quantity": "1",
+        "totalPrice": 2.49,
+        "name": "vivek",
+        "number": "9874561232",
+        "address": "patan",
+        "instructions": "None"
+      }
+    ]
+  }
+]
